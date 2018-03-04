@@ -94,3 +94,123 @@ function myFunction() {
     }
 }
 </script>
+
+<h1>Here are your Results</h1>
+<p>You use <span id="final_total">x</span>L per day</p>
+<p>You can save up to <span id='possible_saved'>x </span>L per day</p>
+<p>This means you can save up to <span id='possible_saved_yearly'>x</span>L per year which would save you <span id='money'>x</span>$ a year</p>
+<hr>
+
+<h2>Some ways you can save are:</h2>
+<p id= "shower_paragraph">
+<!-- if shower time >= 5 display -->
+Try showering for less time, or only have a longer shower every couple days, this can help you save between <span id='showertime_save2'>x</span>L to <span id='showertime_save1'>x</span>L a year.
+</p>
+<br>
+<p id = "shower_paragraph2">
+<!-- if they don't have a low flow shower  display -->
+Try buying this <a href="https://www.amazon.ca/gp/product/B003UQ17O4/ref=s9u_simh_gw_i1?ie=UTF8&pd_rd_i=B003UQ17O4&pd_rd_r=172ae51c-1f72-11e8-a93f-53683bc212b0&pd_rd_w=zp9VN&pd_rd_wg=mtp0Y&pf_rd_m=A3DWYIK6Y9EEQB&pf_rd_s=&pf_rd_r=6KJSWJDZ5X2XYPVG7BK3&pf_rd_t=36701&pf_rd_p=07871b8e-d32a-4963-b98f-ba712077f7f5&pf_rd_i=desktop">shower head</a> it can save 5.5L/minute which adds up really quick. On average it will save you 5.5L/min which is 55L over a 10 minute shower.
+</p>
+<br>
+<p id="toilet_paragraph">
+<!-- if no for low flow toilet -->
+Try buying this <a href = "https://www.lowes.ca/toilets/pfister-vtp-e70w-kamato-white-watersense-elongated-dual-flush-toilet_9719118.html?af=3632&cse=3632&gclid=CjwKCAiArOnUBRBJEiwAX0rG_fh4DHCsNyT4gIxBy5kkaJpg2urIK-HeF9oWCI7UogM_iq_JzKePNBoCizcQAvD_BwE&gclsrc=aw.ds#">low flow toilet</a> it will save you 14L/flush which on average will save you which would save 70L per day which adds up to 25550L per year.
+</p>
+<br>
+<p id = 'dishwasher_paragraph'>
+<!-- if no for low flow dishwasher -->
+Try buying this <a href = "https://www.amazon.com/Frigidaire-FFBD1821MS-Built-Dishwasher-Silver/dp/B005F5I69C">energy saving dishwasher</a> it will save you <span id= 'dishwasher_inputsave'>x</span>L per year.
+</p>
+<br>
+
+<script>
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+var showerHead = getParameterByName('showerhead') === 'true';
+var toilet = getParameterByName('toilet') === 'true';
+var dishwasher = getParameterByName('dishwasher') === 'true';
+var washingMachine = getParameterByName('washing_machine') === 'true';
+var showerTime = parseInt(getParameterByName('showertime'));
+var dishCycles = parseInt(getParameterByName('num_of_dish_cycles'));
+var numShowers = parseInt(getParameterByName('num_of_showers'));
+var numWashCycles = parseInt(getParameterByName('num_of_washCycles'));
+var final_total = 0;
+var possible_saved = 0;
+var possible_saved_yearly = 0;
+var showertime_save1 = 0;
+var showertime_save2 = 0;
+var dishwasher_inputsave = 0;
+if (showerHead) {
+	final_total+= numShowers*showerTime*7.5
+} else {
+	final_total+= showerTime*13*numShowers
+}
+if (toilet) {final_total+= 24}
+else {final_total+= 95}
+if (dishwasher) {final_total+=(15*dishCycles)/7 }
+else {final_total += (23*dishCycles)/7}
+if (washingMachine) {final_total += (49*numWashCycles)/7} 
+else {final_total += (87*numWashCycles)/7}
+document.getElementById('final_total').innerHTML = Math.round(final_total)
+//possible save part
+if (!showerHead) {
+	possible_saved += numShowers*7.5*showerTime
+}
+if (!toilet){
+	possible_saved += 24
+}
+if (!dishwasher){
+	possible_saved += (15*dishCycles/7)
+}
+if (!washingMachine){
+	possible_saved += ((49*numWashCycles)/7)
+}
+// shower time reccomendation
+if (showerTime > 10) {
+showertime_save1 += (showerTime -10)*13*365
+}
+if (showerTime > 10) {
+showertime_save2 += (showerTime-10)*7.5*365
+}
+//Dishwasher reccomendation
+if (!dishwasher){
+	dishwasher_inputsave += (((23*dishCycles)/7) -(15*dishCycles/7))*365
+}
+
+//connecting html to js
+
+document.getElementById('possible_saved').innerHTML = Math.round(possible_saved)
+document.getElementById('money').innerHTML = Math.round(possible_saved*365*0.00172)
+document.getElementById('possible_saved_yearly').innerHTML = Math.round(possible_saved*365)
+document.getElementById('showertime_save1').innerHTML = Math.round(showertime_save1)
+document.getElementById('showertime_save2').innerHTML = Math.round(showertime_save2)
+document.getElementById('dishwasher_inputsave').innerHTML = Math.round(dishwasher_inputsave)
+
+
+//to suppress paragraphs
+if (showerTime <= 10) {
+document.getElementById('shower_paragraph').innerHTML = ''
+}
+if (showerHead) {
+document.getElementById('shower_paragraph2').innerHTML = ''
+}
+if (toilet) {
+document.getElementById('toilet_paragraph').innerHTML = ''
+}
+if (dishwasher) {
+document.getElementById('dishwasher_paragraph').innerHTML = ''
+}
+</script>
+
+
+
+
+
