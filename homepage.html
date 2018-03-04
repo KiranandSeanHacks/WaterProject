@@ -3,7 +3,7 @@
 <head>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Homepage</title>
+	<title>page</title>
 
 	<style>
 body{
@@ -80,12 +80,12 @@ body {
   <a href="mission.html">Mission</a>
   <a href="partners.html">Partners</a>
   <a href="Questionnaire.html">Questionnaire</a>
-  <a href="loginpage.html">Logout</a>
+  <a id='login' href="loginpage.html">Login</a>
   <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a>
 </div>
 
 <div style="padding-left:16px" >
-  <h2 style="color: white">Welcome, Kiran E.</h2>
+  <h2 style="color: white">Welcome, <span id='username'>User</span></h2>
   <p style="color: white">Will you help us save the world, one drop at a time?</p>
   <br>
   <p>Please take our <a href= 'Questionnaire.html'>questionnaire</a> and tell us your water usage habits.</p>
@@ -140,6 +140,29 @@ H2Onaaaaaaaaano<sup>TM</sup><br>
 The University of Waterloo<br>
 108 Seagram dr., Waterloo <br>
 ON</b>
+<script>
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+console.log(document.cookie);
+if (getCookie('fullName') !== "") {
+  document.getElementById('username').innerHTML = getCookie('fullName');
+  document.getElementById('login').innerHTML = 'Logout';
+}
+</script>
 
 </address>
 </body>
