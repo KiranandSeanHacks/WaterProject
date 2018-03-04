@@ -1,0 +1,20 @@
+<head>
+	<title>Starterhacks Demo</title>
+</head>
+<body>
+	<h1>{{welcomeMessage}}</h1>
+	<ul>
+		{{#each messages}}
+		<li>{{this.name}}: {{this.message}}</li>
+		{{/each}}
+	</ul>
+	<form action='message'>
+		Name:<br>
+		<input type="text" name="name"><br>
+		Message:<br>
+		<textarea type='text' name="message">	
+		</textarea>
+		<input type="submit" value="Submit">
+	</form>
+
+</body>
